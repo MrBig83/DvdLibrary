@@ -145,22 +145,8 @@ Notering:
 
 Arbetet sker i `development`. `main` är skyddad och ska endast uppdateras via Pull Request.
 
-### Rekommenderad branch protection i GitHub UI
-
-1. Gå till repositoryts `Settings`.
-2. Öppna `Branches`.
-3. Klicka `Add branch protection rule`.
-4. Ange branch-namn `main`.
-5. Aktivera `Require a pull request before merging`.
-6. Aktivera `Block force pushes`.
-7. Aktivera gärna krav på uppdaterad branch före merge.
-
 ## Verifierat i den här miljön
 
 - `dotnet build DvdLibrary.slnx`
 - `dotnet ef migrations add InitialCreate ...`
 - `dotnet ef database update ...`
-
-## Känd notering
-
-Nuvarande AutoMapper-version ger en NuGet-säkerhetsvarning i buildutskriften. Funktionaliteten fungerar, men paketversionen bör uppgraderas när en patchad version finns tillgänglig för vald .NET 10-kedja.
