@@ -8,7 +8,7 @@ Det här projektet är en ASP.NET Core Web API-lösning i .NET 10 för en fiktiv
 - ASP.NET Core Web API med controllers
 - Clean Architecture
 - CQRS + MediatR
-- Entity Framework Core + SQL Server / LocalDB
+- Entity Framework Core + SQL Server på `localhost`
 - Repository Pattern
 - AutoMapper
 - FluentValidation
@@ -61,6 +61,10 @@ dotnet run --project src/DvdLibrary.API/DvdLibrary.API.csproj
 - `https://localhost:xxxx/swagger`
 - eller OpenAPI-dokumentet via `https://localhost:xxxx/openapi/v1.json`
 
+Repo på GitHub:
+
+- `https://github.com/MrBig83/DvdLibrary`
+
 ## Databas och migrationer
 
 Connection string finns i:
@@ -86,7 +90,7 @@ Migrationerna ligger i [src/DvdLibrary.Infrastructure/Persistence/Migrations](/E
 
 ### Auth
 
-- `POST /api/auth/login`
+- `POST /api/Auth/login`
 
 ### Genres
 
@@ -124,6 +128,10 @@ Så testar du i Swagger:
 4. Klistra in `Bearer {token}`.
 5. Testa t.ex. `POST`, `PUT` eller `DELETE` på `DvdMovies`.
 
+Notering:
+
+- Swagger visar just nu auth-endpointen som `POST /api/Auth/login` med versalt `A`, eftersom routen genereras från controllernamnet.
+
 ## Arkitektur i korthet
 
 - Controllers är tunna och skickar allt via MediatR.
@@ -135,7 +143,7 @@ Så testar du i Swagger:
 
 ## Branch-strategi
 
-Arbetet sker i `development`. `main` ska skyddas och endast uppdateras via Pull Request.
+Arbetet sker i `development`. `main` är skyddad och ska endast uppdateras via Pull Request.
 
 ### Rekommenderad branch protection i GitHub UI
 
