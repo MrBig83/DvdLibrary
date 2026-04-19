@@ -1,6 +1,0 @@
-@DvdLibrary.API_HostAddress = http://localhost:5010
-
-GET {{DvdLibrary.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
