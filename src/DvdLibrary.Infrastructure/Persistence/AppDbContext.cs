@@ -50,7 +50,14 @@ public class AppDbContext : DbContext, IUnitOfWork
             entity.HasData(
                 new DvdMovie { Id = 1, Title = "The Matrix", Director = "The Wachowskis", ReleaseYear = 1999, DurationMinutes = 136, IsAvailable = true, GenreId = 1 },
                 new DvdMovie { Id = 2, Title = "Gladiator", Director = "Ridley Scott", ReleaseYear = 2000, DurationMinutes = 155, IsAvailable = true, GenreId = 2 },
-                new DvdMovie { Id = 3, Title = "Interstellar", Director = "Christopher Nolan", ReleaseYear = 2014, DurationMinutes = 169, IsAvailable = false, GenreId = 1 });
+                new DvdMovie { Id = 3, Title = "Interstellar", Director = "Christopher Nolan", ReleaseYear = 2014, DurationMinutes = 169, IsAvailable = false, GenreId = 1 },
+                new DvdMovie { Id = 4, Title = "Blade Runner", Director = "Ridley Scott", ReleaseYear = 1982, DurationMinutes = 117, IsAvailable = true, GenreId = 1 },
+                new DvdMovie { Id = 5, Title = "Inception", Director = "Christopher Nolan", ReleaseYear = 2010, DurationMinutes = 148, IsAvailable = true, GenreId = 1 },
+                new DvdMovie { Id = 6, Title = "Mad Max: Fury Road", Director = "George Miller", ReleaseYear = 2015, DurationMinutes = 120, IsAvailable = true, GenreId = 2 },
+                new DvdMovie { Id = 7, Title = "Die Hard", Director = "John McTiernan", ReleaseYear = 1988, DurationMinutes = 132, IsAvailable = true, GenreId = 2 },
+                new DvdMovie { Id = 8, Title = "The Shawshank Redemption", Director = "Frank Darabont", ReleaseYear = 1994, DurationMinutes = 142, IsAvailable = true, GenreId = 3 },
+                new DvdMovie { Id = 9, Title = "A Beautiful Mind", Director = "Ron Howard", ReleaseYear = 2001, DurationMinutes = 135, IsAvailable = false, GenreId = 3 },
+                new DvdMovie { Id = 10, Title = "The Green Mile", Director = "Frank Darabont", ReleaseYear = 1999, DurationMinutes = 189, IsAvailable = true, GenreId = 3 });
         });
 
         modelBuilder.Entity<AppUser>(entity =>

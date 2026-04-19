@@ -37,7 +37,7 @@ Det här projektet är en ASP.NET Core Web API-lösning i .NET 10 för en fiktiv
 
 ## Kör projektet
 
-1. Säkerställ att SQL Server LocalDB finns installerat.
+1. Säkerställ att lokal SQL Server på `localhost` är tillgänglig.
 2. Återskapa paket:
 
 ```powershell
