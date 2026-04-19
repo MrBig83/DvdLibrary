@@ -11,7 +11,7 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
     public AppDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-        var connectionString = "Server=(localdb)\\mssqllocaldb;Database=DvdLibraryDb;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True";
+        var connectionString = "Server=localhost;Database=DvdLibraryDb;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True";
 
         optionsBuilder.UseSqlServer(connectionString);
 
