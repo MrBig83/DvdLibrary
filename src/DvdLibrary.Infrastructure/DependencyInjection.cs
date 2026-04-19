@@ -14,6 +14,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
+        // Infrastructure kopplar på databas, repositories och tekniska tjänster.
         var connectionString = configuration.GetConnectionString("DefaultConnection")
             ?? throw new InvalidOperationException("Connection string 'DefaultConnection' saknas.");
 
@@ -22,11 +23,13 @@ public static class DependencyInjection
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(connectionString));
 
+        // Här binds gränssnitten från de inre lagren till konkreta implementationer.
         services.AddScoped<IDvdMovieRepository, DvdMovieRepository>();
         services.AddScoped<IGenreRepository, GenreRepository>();
         services.AddScoped<IAppUserRepository, AppUserRepository>();
         services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<AppDbContext>());
 
+        // Auth-tjänsterna hålls också här eftersom de är tekniska implementationer.
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddScoped<IPasswordHasher, DemoPasswordHasher>();
 

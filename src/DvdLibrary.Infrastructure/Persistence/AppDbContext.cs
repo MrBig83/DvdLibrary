@@ -28,6 +28,7 @@ public class AppDbContext : DbContext, IUnitOfWork
 
         modelBuilder.Entity<Genre>(entity =>
         {
+            // Genrer är uppslagsdata som filmerna refererar till.
             entity.Property(x => x.Name).HasMaxLength(100).IsRequired();
             entity.Property(x => x.Description).HasMaxLength(300);
 
@@ -39,14 +40,17 @@ public class AppDbContext : DbContext, IUnitOfWork
 
         modelBuilder.Entity<DvdMovie>(entity =>
         {
+            // Filmens textfält begränsas för att matcha rimliga databasvärden.
             entity.Property(x => x.Title).HasMaxLength(150).IsRequired();
             entity.Property(x => x.Director).HasMaxLength(100).IsRequired();
 
+            // En film tillhör exakt en genre och får inte lämna genrefältet tomt.
             entity.HasOne(x => x.Genre)
                 .WithMany(x => x.DvdMovies)
                 .HasForeignKey(x => x.GenreId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // Seed-data gör det enkelt att demonstrera API:t direkt efter migration.
             entity.HasData(
                 new DvdMovie { Id = 1, Title = "The Matrix", Director = "The Wachowskis", ReleaseYear = 1999, DurationMinutes = 136, IsAvailable = true, GenreId = 1 },
                 new DvdMovie { Id = 2, Title = "Gladiator", Director = "Ridley Scott", ReleaseYear = 2000, DurationMinutes = 155, IsAvailable = true, GenreId = 2 },
@@ -62,11 +66,13 @@ public class AppDbContext : DbContext, IUnitOfWork
 
         modelBuilder.Entity<AppUser>(entity =>
         {
+            // Användarna är avsiktligt enkla för att JWT-flödet ska vara lätt att förklara.
             entity.Property(x => x.Username).HasMaxLength(50).IsRequired();
             entity.Property(x => x.PasswordHash).HasMaxLength(200).IsRequired();
 
             entity.HasIndex(x => x.Username).IsUnique();
 
+            // Två seedade användare räcker för att demonstrera RBAC i Swagger.
             entity.HasData(
                 new AppUser { Id = 1, Username = "admin", PasswordHash = DemoPasswordHasher.HashSeedPassword("Admin123!"), Role = UserRole.Admin },
                 new AppUser { Id = 2, Username = "user", PasswordHash = DemoPasswordHasher.HashSeedPassword("User123!"), Role = UserRole.User });

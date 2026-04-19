@@ -10,6 +10,7 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
 {
     public AppDbContext CreateDbContext(string[] args)
     {
+        // Design time-fabriken används av EF Tools när nya migrationer skapas.
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
         var connectionString = "Server=localhost;Database=DvdLibraryDb;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True";
 

@@ -11,7 +11,7 @@ using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// API-lagret ska bara orkestrera. All affärslogik registreras från Application och Infrastructure.
+// API-lagret ska bara orkestrera. All affärslogik registreras från de inre lagren.
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddControllers();
@@ -19,6 +19,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen(options =>
 {
+    // Definitionen gör att Swagger kan visa en Authorize-knapp för JWT.
     var jwtSecurityScheme = new OpenApiSecurityScheme
     {
         Description = "Ange JWT-token enligt formatet: Bearer {din token}",
@@ -30,12 +31,12 @@ builder.Services.AddSwaggerGen(options =>
     };
 
     options.AddSecurityDefinition("Bearer", jwtSecurityScheme);
-
 });
 
 var jwtSettings = builder.Configuration.GetSection(JwtSettings.SectionName).Get<JwtSettings>()
     ?? throw new InvalidOperationException("JwtSettings saknas i konfigurationen.");
 
+// Här talar vi om hur en giltig JWT ska valideras när en skyddad endpoint anropas.
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -55,6 +56,7 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
+// Fångar vanliga fel centralt så att controllers och handlers kan hållas rena.
 app.UseExceptionHandler(errorApp =>
 {
     errorApp.Run(async context =>
@@ -82,11 +84,13 @@ app.UseExceptionHandler(errorApp =>
 
 if (app.Environment.IsDevelopment())
 {
+    // Swagger och OpenAPI ska bara exponeras i utvecklingsmiljön.
     app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+// Ordningen är viktig: auth måste köras innan controllers exekveras.
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

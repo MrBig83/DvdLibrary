@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DvdLibrary.Infrastructure.Repositories;
 
+/// <summary>
+/// Hämtar användare som används i det enkla loginflödet.
+/// </summary>
 public class AppUserRepository : IAppUserRepository
 {
     private readonly AppDbContext _context;
@@ -16,6 +19,7 @@ public class AppUserRepository : IAppUserRepository
 
     public async Task<AppUser?> GetByUsernameAsync(string username, CancellationToken cancellationToken)
     {
+        // Login använder användarnamn som unik nyckel i stället för e-post eller id.
         return await _context.AppUsers
             .AsNoTracking()
             .FirstOrDefaultAsync(user => user.Username == username, cancellationToken);

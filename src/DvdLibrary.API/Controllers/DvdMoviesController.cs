@@ -13,6 +13,9 @@ namespace DvdLibrary.API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
+/// <summary>
+/// Exponerar CRUD-endpoints för DVD-filmer.
+/// </summary>
 public class DvdMoviesController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -26,6 +29,7 @@ public class DvdMoviesController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IReadOnlyList<DvdMovieDto>>> GetAll()
     {
+        // Hämtning av listor är publik i den här uppgiften.
         var result = await _mediator.Send(new GetAllDvdMoviesQuery());
         return Ok(result);
     }
@@ -34,6 +38,7 @@ public class DvdMoviesController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<DvdMovieDto>> GetById(int id)
     {
+        // Returnerar 404 om filmen saknas.
         var result = await _mediator.Send(new GetDvdMovieByIdQuery(id));
         return result is null ? NotFound() : Ok(result);
     }
@@ -42,6 +47,7 @@ public class DvdMoviesController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<DvdMovieDto>> Create([FromBody] CreateDvdMovieDto createDvdMovieDto)
     {
+        // Endast Admin får skapa nya filmer.
         var result = await _mediator.Send(new CreateDvdMovieCommand(createDvdMovieDto));
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
     }
@@ -50,6 +56,7 @@ public class DvdMoviesController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<ActionResult<DvdMovieDto>> Update(int id, [FromBody] UpdateDvdMovieDto updateDvdMovieDto)
     {
+        // Uppdatering går samma väg via MediatR som resten av API:t.
         var result = await _mediator.Send(new UpdateDvdMovieCommand(id, updateDvdMovieDto));
         return result is null ? NotFound() : Ok(result);
     }
@@ -58,6 +65,7 @@ public class DvdMoviesController : ControllerBase
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
+        // Delete returnerar 204 när filmen faktiskt togs bort.
         var deleted = await _mediator.Send(new DeleteDvdMovieCommand(id));
         return deleted ? NoContent() : NotFound();
     }

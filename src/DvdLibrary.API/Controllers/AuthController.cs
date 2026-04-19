@@ -8,6 +8,9 @@ namespace DvdLibrary.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+/// <summary>
+/// Hanterar enkel inloggning för att demonstrera JWT i projektet.
+/// </summary>
 public class AuthController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -21,6 +24,7 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<ActionResult<LoginResponseDto>> Login([FromBody] LoginRequestDto loginRequestDto)
     {
+        // Controllern skickar bara vidare requesten till Application-lagret.
         var result = await _mediator.Send(new LoginCommand(loginRequestDto));
         if (result is null)
         {
