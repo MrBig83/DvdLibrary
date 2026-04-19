@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DvdLibrary.API/DvdLibrary.API.csproj" />
+    <Project Path="src/DvdLibrary.Application/DvdLibrary.Application.csproj" />
+    <Project Path="src/DvdLibrary.Domain/DvdLibrary.Domain.csproj" />
+    <Project Path="src/DvdLibrary.Infrastructure/DvdLibrary.Infrastructure.csproj" />
+  </Folder>
+</Solution>
