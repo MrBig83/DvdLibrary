@@ -21,11 +21,13 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
+        // Om requesten saknar validatorer släpper vi igenom den direkt.
         if (!_validators.Any())
         {
             return await next();
         }
 
+        // Alla validatorer körs innan handlern får göra något.
         var context = new ValidationContext<TRequest>(request);
         var validationResults = await Task.WhenAll(
             _validators.Select(validator => validator.ValidateAsync(context, cancellationToken)));
@@ -37,6 +39,7 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
 
         if (failures.Count != 0)
         {
+            // Samlar alla fel i ett enda undantag som fångas i API-lagret.
             throw new ValidationException(failures);
         }
 

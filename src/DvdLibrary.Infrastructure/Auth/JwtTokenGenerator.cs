@@ -9,6 +9,9 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace DvdLibrary.Infrastructure.Auth;
 
+/// <summary>
+/// Skapar JWT-token med användarens id, namn och roll som claims.
+/// </summary>
 public class JwtTokenGenerator : IJwtTokenGenerator
 {
     private readonly JwtSettings _jwtSettings;
@@ -20,6 +23,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
 
     public string GenerateToken(AppUser user)
     {
+        // Claims används senare av ASP.NET Core för att avgöra vem användaren är.
         var claims = new List<Claim>
         {
             new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
@@ -28,6 +32,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
             new(ClaimTypes.Role, user.Role.ToString())
         };
 
+        // Signering med hemlig nyckel gör att token inte kan förfalskas enkelt.
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 

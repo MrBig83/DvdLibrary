@@ -19,6 +19,7 @@ public class DvdMovieRepository : IDvdMovieRepository
 
     public async Task<IReadOnlyList<DvdMovie>> GetAllAsync(CancellationToken cancellationToken)
     {
+        // Include används så att genrens namn finns tillgängligt vid mappning till DTO.
         return await _context.DvdMovies
             .AsNoTracking()
             .Include(movie => movie.Genre)
@@ -28,6 +29,7 @@ public class DvdMovieRepository : IDvdMovieRepository
 
     public async Task<DvdMovie?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
+        // Enskild film hämtas med genre för att slippa extra databasfråga senare.
         return await _context.DvdMovies
             .Include(movie => movie.Genre)
             .FirstOrDefaultAsync(movie => movie.Id == id, cancellationToken);

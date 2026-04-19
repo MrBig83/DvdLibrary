@@ -5,6 +5,9 @@ using MediatR;
 
 namespace DvdLibrary.Application.Features.Genres.Queries.GetAllGenres;
 
+/// <summary>
+/// Hämtar alla genrer som stöddata till klienten.
+/// </summary>
 public class GetAllGenresQueryHandler : IRequestHandler<GetAllGenresQuery, IReadOnlyList<GenreDto>>
 {
     private readonly IGenreRepository _genreRepository;
@@ -18,6 +21,7 @@ public class GetAllGenresQueryHandler : IRequestHandler<GetAllGenresQuery, IRead
 
     public async Task<IReadOnlyList<GenreDto>> Handle(GetAllGenresQuery request, CancellationToken cancellationToken)
     {
+        // Genrer används främst när klienten ska välja kategori för en film.
         var genres = await _genreRepository.GetAllAsync(cancellationToken);
         return _mapper.Map<IReadOnlyList<GenreDto>>(genres);
     }

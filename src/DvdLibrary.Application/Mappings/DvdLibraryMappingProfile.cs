@@ -12,11 +12,14 @@ public class DvdLibraryMappingProfile : Profile
 {
     public DvdLibraryMappingProfile()
     {
+        // Genrer returneras som enkla DTO:er till API:t.
         CreateMap<Genre, GenreDto>();
 
+        // Filmens genrenamn hämtas från navigationen så att klienten slipper slå upp det separat.
         CreateMap<DvdMovie, DvdMovieDto>()
             .ForMember(destination => destination.GenreName, options => options.MapFrom(source => source.Genre != null ? source.Genre.Name : string.Empty));
 
+        // Create och Update mappar bara indata till domänmodellen.
         CreateMap<CreateDvdMovieDto, DvdMovie>();
         CreateMap<UpdateDvdMovieDto, DvdMovie>();
     }

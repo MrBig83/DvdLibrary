@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DvdLibrary.Infrastructure.Repositories;
 
+/// <summary>
+/// Läser genredata från databasen.
+/// </summary>
 public class GenreRepository : IGenreRepository
 {
     private readonly AppDbContext _context;
@@ -16,6 +19,7 @@ public class GenreRepository : IGenreRepository
 
     public async Task<IReadOnlyList<Genre>> GetAllAsync(CancellationToken cancellationToken)
     {
+        // AsNoTracking räcker här eftersom queryn bara läser data.
         return await _context.Genres
             .AsNoTracking()
             .OrderBy(genre => genre.Name)
@@ -24,6 +28,7 @@ public class GenreRepository : IGenreRepository
 
     public async Task<Genre?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
+        // Används bland annat när filmer ska skapas eller uppdateras.
         return await _context.Genres
             .AsNoTracking()
             .FirstOrDefaultAsync(genre => genre.Id == id, cancellationToken);
